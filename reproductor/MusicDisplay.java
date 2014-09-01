@@ -131,7 +131,7 @@ public class MusicDisplay extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo MP3", "mp3", "mp3"); 
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo MP3", "mp3", "mp3"); 
         fileChooser.setFileFilter(filtro); 
 
         int seleccion = fileChooser.showOpenDialog(this); 
