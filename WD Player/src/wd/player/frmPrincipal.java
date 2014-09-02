@@ -7,12 +7,11 @@
 package wd.player;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.farng.mp3.MP3File;
-import org.farng.mp3.TagException;
+import org.jaudiotagger.audio.*;
+import org.jaudiotagger.tag.*;
 import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
@@ -25,9 +24,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     ImageIcon izquierda = new ImageIcon(getClass().getResource("/Images/izquierda.png"));
     ImageIcon derecha = new ImageIcon(getClass().getResource("/Images/derecha.png"));
     File file; 
-    boolean running= false;
     String url = null;
-    //PlayerD reproductor = new PlayerD();
+    
+    AudioFile audioFile = null;
+    Tag tag = null;
+    AudioHeader audioHeader = null;
     
     public void IniciarObjetos() {
        setBounds(150, 100, 1025, 550);
@@ -35,27 +36,31 @@ public class frmPrincipal extends javax.swing.JFrame {
        jFileChooser1.setFileFilter(filter);
     }
     
-    public void procesarInfo(String url) throws TagException, IOException {
-        MP3File mp3 = new MP3File(url);
-        String nom = mp3.getID3v2Tag().getSongTitle();
-        String art = mp3.getID3v2Tag().getLeadArtist();
-        String alb = mp3.getID3v2Tag().getAlbumTitle();
-        String gen = mp3.getID3v2Tag().getSongGenre();
-        String ano = mp3.getID3v2Tag().getYearReleased();
-        String dur = mp3.getID3v2Tag().getSongLyric();
-        
-        System.out.println("Nombre:" + nom);
-        System.out.println("Artista:" + art);
-        System.out.println("Album:" + alb);
-        System.out.println("Genero:" + gen);
-        System.out.println("Año:" + ano);
+    public void procesarInfo() throws TagException, IOException {
+        String nom = tag.getFirst(FieldKey.TITLE);
+        String art = tag.getFirst(FieldKey.ARTIST);
+        String alb = tag.getFirst(FieldKey.ALBUM);
+        String tra = tag.getFirst(FieldKey.TRACK);
+        String gen = tag.getFirst(FieldKey.GENRE);
+        String ano = tag.getFirst(FieldKey.YEAR);
+        int dur = audioHeader.getTrackLength();
+        TagField binaryField = tag.getFirstField(FieldKey.COVER_ART);
         
         jLabelNomp.setText(nom);
         jLabelArtp.setText(art);
         jLabelAlbp.setText(alb);
+        jLabelTrackp.setText(tra);
         jLabelGenp.setText(gen);
         jLabelAnop.setText(ano);
-        jLabelDurp.setText(dur);
+        jLabelDurp.setText(Integer.toString(dur));
+        
+        System.out.println("Nombre:" + nom);
+        System.out.println("Artista:" + art);
+        System.out.println("Album:" + alb);
+        System.out.println("Número:" + tra);
+        System.out.println("Genero:" + gen);
+        System.out.println("Año:" + ano);
+        System.out.println("Duracion:" + dur + "s");
     }
     
     public void procesarTamañoVentana() {
@@ -88,6 +93,30 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }
     
+    public void procesarJfileChooser1() {
+        int seleccion = jFileChooser1.showOpenDialog(this); 
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) { 
+            file = jFileChooser1.getSelectedFile(); 
+            try { 
+                //Obteniendo la direccion del archivo
+                url = file.getPath();
+                
+                audioFile = AudioFileIO.read(file);
+                tag = audioFile.getTag();
+                audioHeader = audioFile.getAudioHeader();
+                
+                procesarInfo();
+                
+                abrir = false;
+                procesarTamañoVentana();
+            }
+            catch(Exception es) {
+                JOptionPane.showMessageDialog(null, "Error al abrir el archivo"+ es);
+            }
+        } 
+    }
+    
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("Images/wd_logo.png"));
@@ -114,12 +143,14 @@ public class frmPrincipal extends javax.swing.JFrame {
         jLabelAnop = new javax.swing.JLabel();
         jLabelDurp = new javax.swing.JLabel();
         jLabelNomp = new javax.swing.JLabel();
-        jLabelGenp = new javax.swing.JLabel();
+        jLabelTrackp = new javax.swing.JLabel();
         jLabelArt = new javax.swing.JLabel();
         jLabelAlb = new javax.swing.JLabel();
-        jLabelGen = new javax.swing.JLabel();
+        jLabelTrack = new javax.swing.JLabel();
         jLabelAno = new javax.swing.JLabel();
         jLabelDur = new javax.swing.JLabel();
+        jLabelGen = new javax.swing.JLabel();
+        jLabelGenp = new javax.swing.JLabel();
         jPanelPlayer = new javax.swing.JPanel();
         jLabelImg = new javax.swing.JLabel();
         jButtonPlayPause = new javax.swing.JButton();
@@ -145,7 +176,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jButtonAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/derecha.png"))); // NOI18N
-        jButtonAbrir.setPreferredSize(new java.awt.Dimension(43, 17));
         jButtonAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAbrirActionPerformed(evt);
@@ -154,14 +184,18 @@ public class frmPrincipal extends javax.swing.JFrame {
         getContentPane().add(jButtonAbrir);
         jButtonAbrir.setBounds(990, 190, 20, 121);
 
+        jPanelInfo.setBackground(new java.awt.Color(144, 210, 147));
         jPanelInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanelInfo.setLayout(null);
 
+        jLabelInfo.setFont(new java.awt.Font("Tahoma", 3, 16)); // NOI18N
         jLabelInfo.setText("Info. del Fichero");
         jPanelInfo.add(jLabelInfo);
         jLabelInfo.setBounds(10, 10, 220, 30);
+
+        jSeparator1.setForeground(new java.awt.Color(102, 102, 102));
         jPanelInfo.add(jSeparator1);
-        jSeparator1.setBounds(0, 50, 250, 10);
+        jSeparator1.setBounds(0, 50, 250, 2);
 
         jLabelNom.setText("Nombre:");
         jPanelInfo.add(jLabelNom);
@@ -177,19 +211,19 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabelAnop.setText("-");
         jPanelInfo.add(jLabelAnop);
-        jLabelAnop.setBounds(90, 190, 150, 20);
+        jLabelAnop.setBounds(90, 220, 150, 20);
 
         jLabelDurp.setText("-");
         jPanelInfo.add(jLabelDurp);
-        jLabelDurp.setBounds(90, 220, 150, 20);
+        jLabelDurp.setBounds(90, 250, 150, 20);
 
         jLabelNomp.setText("-");
         jPanelInfo.add(jLabelNomp);
         jLabelNomp.setBounds(90, 70, 150, 20);
 
-        jLabelGenp.setText("-");
-        jPanelInfo.add(jLabelGenp);
-        jLabelGenp.setBounds(90, 160, 150, 20);
+        jLabelTrackp.setText("-");
+        jPanelInfo.add(jLabelTrackp);
+        jLabelTrackp.setBounds(90, 160, 150, 20);
 
         jLabelArt.setText("Artista:");
         jPanelInfo.add(jLabelArt);
@@ -199,29 +233,38 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanelInfo.add(jLabelAlb);
         jLabelAlb.setBounds(10, 130, 80, 20);
 
-        jLabelGen.setText("Género:");
-        jPanelInfo.add(jLabelGen);
-        jLabelGen.setBounds(10, 160, 80, 20);
+        jLabelTrack.setText("Track:");
+        jPanelInfo.add(jLabelTrack);
+        jLabelTrack.setBounds(10, 160, 80, 20);
 
         jLabelAno.setText("Año:");
         jPanelInfo.add(jLabelAno);
-        jLabelAno.setBounds(10, 190, 60, 20);
+        jLabelAno.setBounds(10, 220, 60, 20);
 
         jLabelDur.setText("Duración:");
         jPanelInfo.add(jLabelDur);
-        jLabelDur.setBounds(10, 220, 80, 20);
+        jLabelDur.setBounds(10, 250, 80, 20);
+
+        jLabelGen.setText("Género:");
+        jPanelInfo.add(jLabelGen);
+        jLabelGen.setBounds(10, 190, 80, 20);
+
+        jLabelGenp.setText("-");
+        jPanelInfo.add(jLabelGenp);
+        jLabelGenp.setBounds(90, 190, 150, 20);
 
         getContentPane().add(jPanelInfo);
         jPanelInfo.setBounds(1020, 20, 250, 470);
 
+        jPanelPlayer.setBackground(new java.awt.Color(153, 153, 255));
         jPanelPlayer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanelPlayer.setLayout(null);
 
         jLabelImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelImg.setText("Imagen");
-        jLabelImg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabelImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/multimedia.png"))); // NOI18N
+        jLabelImg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         jPanelPlayer.add(jLabelImg);
-        jLabelImg.setBounds(217, 97, 232, 220);
+        jLabelImg.setBounds(217, 97, 230, 220);
 
         jButtonPlayPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png"))); // NOI18N
         jButtonPlayPause.setBorderPainted(false);
@@ -266,6 +309,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         getContentPane().add(jPanelPlayer);
         jPanelPlayer.setBounds(340, 20, 640, 470);
 
+        jPanelList.setBackground(new java.awt.Color(144, 119, 174));
         jPanelList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanelList.setLayout(null);
 
@@ -307,28 +351,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAbrirActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-        int seleccion = jFileChooser1.showOpenDialog(this); 
-
-        if (seleccion == JFileChooser.APPROVE_OPTION) { 
-            file = jFileChooser1.getSelectedFile(); 
-            try { 
-                //Obteniendo la direccion del archivo
-                url = file.getPath();
-                procesarInfo(url);
-                //Le decimos al control del player que abra el archivo
-                //reproductor.control.open(file);
-                
-                abrir = false;
-                procesarTamañoVentana();
-            } 
-            /*catch (BasicPlayerException ex) { 
-                Logger.getLogger(MusicDisplay.class.getName()).log(Level.SEVERE, null, ex); 
-            } */
-            catch(Exception es) {
-                JOptionPane.showMessageDialog(null, "Error al abrir el archivo"+ es);
-            }
-        } 
+        procesarJfileChooser1();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButtonPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayPauseActionPerformed
@@ -383,6 +406,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelLista;
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelNomp;
+    private javax.swing.JLabel jLabelTrack;
+    private javax.swing.JLabel jLabelTrackp;
     private javax.swing.JLabel jLabelVol;
     private javax.swing.JPanel jPanelInfo;
     private javax.swing.JPanel jPanelList;
