@@ -34,6 +34,19 @@ public class frmPrincipal extends javax.swing.JFrame {
        setBounds(150, 100, 1025, 550);
        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de audio", "mp3");
        jFileChooser1.setFileFilter(filter);
+       jButtonAceptar.setVisible(false);
+        bloquearDesbloquearObjetos(false);
+    }
+    
+    public void bloquearDesbloquearObjetos(boolean a){
+        jButtonCancelar.setVisible(a);
+       jTextFieldAlb.setEditable(a);
+       jTextFieldAno.setEditable(a);
+       jTextFieldArt.setEditable(a);
+       jTextFieldDur.setEditable(a);
+       jTextFieldGen.setEditable(a);
+       jTextFieldNom.setEditable(a);
+       jTextFieldTrack.setEditable(a);
     }
     
     public void procesarInfo() throws TagException, IOException {
@@ -46,13 +59,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         int dur = audioHeader.getTrackLength();
         TagField binaryField = tag.getFirstField(FieldKey.COVER_ART);
         
-        jLabelNomp.setText(nom);
-        jLabelArtp.setText(art);
-        jLabelAlbp.setText(alb);
-        jLabelTrackp.setText(tra);
-        jLabelGenp.setText(gen);
-        jLabelAnop.setText(ano);
-        jLabelDurp.setText(Integer.toString(dur));
+        jTextFieldNom.setText(nom);
+        jTextFieldArt.setText(art);
+        jTextFieldAlb.setText(alb);
+        jTextFieldTrack.setText(tra);
+        jTextFieldGen.setText(gen);
+        jTextFieldAno.setText(ano);
+        jTextFieldDur.setText(Integer.toString(dur));
         
         System.out.println("Nombre:" + nom);
         System.out.println("Artista:" + art);
@@ -108,8 +121,9 @@ public class frmPrincipal extends javax.swing.JFrame {
                 
                 procesarInfo();
                 
-                abrir = false;
-                procesarTamañoVentana();
+                if (abrir == false)
+                    procesarTamañoVentana();
+                
             }
             catch(Exception es) {
                 JOptionPane.showMessageDialog(null, "Error al abrir el archivo"+ es);
@@ -138,19 +152,21 @@ public class frmPrincipal extends javax.swing.JFrame {
         jLabelInfo = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabelNom = new javax.swing.JLabel();
-        jLabelAlbp = new javax.swing.JLabel();
-        jLabelArtp = new javax.swing.JLabel();
-        jLabelAnop = new javax.swing.JLabel();
-        jLabelDurp = new javax.swing.JLabel();
-        jLabelNomp = new javax.swing.JLabel();
-        jLabelTrackp = new javax.swing.JLabel();
         jLabelArt = new javax.swing.JLabel();
         jLabelAlb = new javax.swing.JLabel();
         jLabelTrack = new javax.swing.JLabel();
         jLabelAno = new javax.swing.JLabel();
         jLabelDur = new javax.swing.JLabel();
         jLabelGen = new javax.swing.JLabel();
-        jLabelGenp = new javax.swing.JLabel();
+        jTextFieldDur = new javax.swing.JTextField();
+        jTextFieldNom = new javax.swing.JTextField();
+        jTextFieldArt = new javax.swing.JTextField();
+        jTextFieldAlb = new javax.swing.JTextField();
+        jTextFieldTrack = new javax.swing.JTextField();
+        jTextFieldGen = new javax.swing.JTextField();
+        jTextFieldAno = new javax.swing.JTextField();
+        jButtonCancelar = new javax.swing.JButton();
+        jButtonAceptar = new javax.swing.JButton();
         jPanelPlayer = new javax.swing.JPanel();
         jLabelImg = new javax.swing.JLabel();
         jButtonPlayPause = new javax.swing.JButton();
@@ -201,30 +217,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanelInfo.add(jLabelNom);
         jLabelNom.setBounds(10, 70, 80, 20);
 
-        jLabelAlbp.setText("-");
-        jPanelInfo.add(jLabelAlbp);
-        jLabelAlbp.setBounds(90, 130, 150, 20);
-
-        jLabelArtp.setText("-");
-        jPanelInfo.add(jLabelArtp);
-        jLabelArtp.setBounds(90, 100, 150, 20);
-
-        jLabelAnop.setText("-");
-        jPanelInfo.add(jLabelAnop);
-        jLabelAnop.setBounds(90, 220, 150, 20);
-
-        jLabelDurp.setText("-");
-        jPanelInfo.add(jLabelDurp);
-        jLabelDurp.setBounds(90, 250, 150, 20);
-
-        jLabelNomp.setText("-");
-        jPanelInfo.add(jLabelNomp);
-        jLabelNomp.setBounds(90, 70, 150, 20);
-
-        jLabelTrackp.setText("-");
-        jPanelInfo.add(jLabelTrackp);
-        jLabelTrackp.setBounds(90, 160, 150, 20);
-
         jLabelArt.setText("Artista:");
         jPanelInfo.add(jLabelArt);
         jLabelArt.setBounds(10, 100, 80, 20);
@@ -249,9 +241,62 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanelInfo.add(jLabelGen);
         jLabelGen.setBounds(10, 190, 80, 20);
 
-        jLabelGenp.setText("-");
-        jPanelInfo.add(jLabelGenp);
-        jLabelGenp.setBounds(90, 190, 150, 20);
+        jTextFieldDur.setBackground(new java.awt.Color(144, 210, 147));
+        jTextFieldDur.setText("-");
+        jTextFieldDur.setBorder(null);
+        jPanelInfo.add(jTextFieldDur);
+        jTextFieldDur.setBounds(90, 250, 150, 26);
+
+        jTextFieldNom.setBackground(new java.awt.Color(144, 210, 147));
+        jTextFieldNom.setText("-");
+        jTextFieldNom.setBorder(null);
+        jPanelInfo.add(jTextFieldNom);
+        jTextFieldNom.setBounds(90, 70, 150, 26);
+
+        jTextFieldArt.setBackground(new java.awt.Color(144, 210, 147));
+        jTextFieldArt.setText("-");
+        jTextFieldArt.setBorder(null);
+        jPanelInfo.add(jTextFieldArt);
+        jTextFieldArt.setBounds(90, 100, 150, 26);
+
+        jTextFieldAlb.setBackground(new java.awt.Color(144, 210, 147));
+        jTextFieldAlb.setText("-");
+        jTextFieldAlb.setBorder(null);
+        jPanelInfo.add(jTextFieldAlb);
+        jTextFieldAlb.setBounds(90, 130, 150, 26);
+
+        jTextFieldTrack.setBackground(new java.awt.Color(144, 210, 147));
+        jTextFieldTrack.setText("-");
+        jTextFieldTrack.setBorder(null);
+        jPanelInfo.add(jTextFieldTrack);
+        jTextFieldTrack.setBounds(90, 160, 150, 26);
+
+        jTextFieldGen.setBackground(new java.awt.Color(144, 210, 147));
+        jTextFieldGen.setText("-");
+        jTextFieldGen.setBorder(null);
+        jPanelInfo.add(jTextFieldGen);
+        jTextFieldGen.setBounds(90, 190, 150, 26);
+
+        jTextFieldAno.setBackground(new java.awt.Color(144, 210, 147));
+        jTextFieldAno.setText("-");
+        jTextFieldAno.setBorder(null);
+        jPanelInfo.add(jTextFieldAno);
+        jTextFieldAno.setBounds(90, 220, 150, 26);
+
+        jButtonCancelar.setFont(new java.awt.Font("Tahoma", 3, 16)); // NOI18N
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
+        jPanelInfo.add(jButtonCancelar);
+        jButtonCancelar.setBounds(70, 340, 110, 29);
+
+        jButtonAceptar.setFont(new java.awt.Font("Tahoma", 3, 16)); // NOI18N
+        jButtonAceptar.setText("Aceptar");
+        jPanelInfo.add(jButtonAceptar);
+        jButtonAceptar.setBounds(70, 300, 110, 29);
 
         getContentPane().add(jPanelInfo);
         jPanelInfo.setBounds(1020, 20, 250, 470);
@@ -319,6 +364,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jLabelLista.setBounds(10, 10, 290, 20);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/editar.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanelList.add(jButton1);
         jButton1.setBounds(130, 40, 40, 40);
 
@@ -363,6 +413,22 @@ public class frmPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonStopActionPerformed
 
+    //programacion del boton modiifcar
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (abrir == false)
+            procesarTamañoVentana();
+        jButtonAceptar.setVisible(true);
+        jButtonCancelar.setVisible(true);
+        bloquearDesbloquearObjetos(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    //programacion del boton cancelar
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        jButtonAceptar.setVisible(false);
+        jButtonCancelar.setVisible(false);
+        bloquearDesbloquearObjetos(false);
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -386,6 +452,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAbrir;
+    private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonNext;
     private javax.swing.JButton jButtonPlayPause;
     private javax.swing.JButton jButtonPrev;
@@ -393,27 +461,27 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelAlb;
-    private javax.swing.JLabel jLabelAlbp;
     private javax.swing.JLabel jLabelAno;
-    private javax.swing.JLabel jLabelAnop;
     private javax.swing.JLabel jLabelArt;
-    private javax.swing.JLabel jLabelArtp;
     private javax.swing.JLabel jLabelDur;
-    private javax.swing.JLabel jLabelDurp;
     private javax.swing.JLabel jLabelGen;
-    private javax.swing.JLabel jLabelGenp;
     private javax.swing.JLabel jLabelImg;
     private javax.swing.JLabel jLabelInfo;
     private javax.swing.JLabel jLabelLista;
     private javax.swing.JLabel jLabelNom;
-    private javax.swing.JLabel jLabelNomp;
     private javax.swing.JLabel jLabelTrack;
-    private javax.swing.JLabel jLabelTrackp;
     private javax.swing.JLabel jLabelVol;
     private javax.swing.JPanel jPanelInfo;
     private javax.swing.JPanel jPanelList;
     private javax.swing.JPanel jPanelPlayer;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSlider jSliderVol;
+    private javax.swing.JTextField jTextFieldAlb;
+    private javax.swing.JTextField jTextFieldAno;
+    private javax.swing.JTextField jTextFieldArt;
+    private javax.swing.JTextField jTextFieldDur;
+    private javax.swing.JTextField jTextFieldGen;
+    private javax.swing.JTextField jTextFieldNom;
+    private javax.swing.JTextField jTextFieldTrack;
     // End of variables declaration//GEN-END:variables
 }
