@@ -276,11 +276,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanelPlayer.add(jButtonPlayPause);
         jButtonPlayPause.setBounds(300, 359, 70, 60);
         jPanelPlayer.add(jSliderVol);
-        jSliderVol.setBounds(510, 380, 120, 30);
+        jSliderVol.setBounds(500, 380, 120, 30);
 
+        jLabelVol.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabelVol.setText("Vol");
         jPanelPlayer.add(jLabelVol);
-        jLabelVol.setBounds(480, 380, 30, 30);
+        jLabelVol.setBounds(470, 380, 30, 30);
 
         jButtonStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/stop.png"))); // NOI18N
         jButtonStop.setBorderPainted(false);
