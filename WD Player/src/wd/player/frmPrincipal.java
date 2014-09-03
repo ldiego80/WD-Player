@@ -217,31 +217,31 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabelNom.setText("Nombre:");
         jPanelInfo.add(jLabelNom);
-        jLabelNom.setBounds(10, 70, 80, 20);
+        jLabelNom.setBounds(10, 70, 80, 14);
 
         jLabelArt.setText("Artista:");
         jPanelInfo.add(jLabelArt);
-        jLabelArt.setBounds(10, 100, 80, 20);
+        jLabelArt.setBounds(10, 100, 80, 14);
 
         jLabelAlb.setText("Álbum:");
         jPanelInfo.add(jLabelAlb);
-        jLabelAlb.setBounds(10, 130, 80, 20);
+        jLabelAlb.setBounds(10, 130, 80, 14);
 
         jLabelTrack.setText("Track:");
         jPanelInfo.add(jLabelTrack);
-        jLabelTrack.setBounds(10, 160, 80, 20);
+        jLabelTrack.setBounds(10, 160, 80, 14);
 
         jLabelAno.setText("Año:");
         jPanelInfo.add(jLabelAno);
-        jLabelAno.setBounds(10, 220, 60, 20);
+        jLabelAno.setBounds(10, 220, 60, 14);
 
         jLabelDur.setText("Duración:");
         jPanelInfo.add(jLabelDur);
-        jLabelDur.setBounds(10, 250, 80, 20);
+        jLabelDur.setBounds(10, 250, 80, 14);
 
         jLabelGen.setText("Género:");
         jPanelInfo.add(jLabelGen);
-        jLabelGen.setBounds(10, 190, 80, 20);
+        jLabelGen.setBounds(10, 190, 80, 14);
 
         jTextFieldDur.setBackground(new java.awt.Color(144, 210, 147));
         jTextFieldDur.setText("-");
@@ -363,7 +363,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabelLista.setText("Lista de Reproducción");
         jPanelList.add(jLabelLista);
-        jLabelLista.setBounds(10, 10, 290, 20);
+        jLabelLista.setBounds(10, 10, 290, 14);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/editar.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
