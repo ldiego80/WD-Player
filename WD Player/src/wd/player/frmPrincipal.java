@@ -182,6 +182,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
 
         jFileChooser1.setAcceptAllFileFilterUsed(false);
 
@@ -389,6 +391,21 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanelList.add(jButton4);
         jButton4.setBounds(70, 40, 40, 40);
 
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jPanelList.add(jScrollPane1);
+        jScrollPane1.setBounds(20, 100, 280, 340);
+
         getContentPane().add(jPanelList);
         jPanelList.setBounds(10, 19, 320, 470);
 
@@ -428,6 +445,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         jButtonCancelar.setVisible(false);
         bloquearDesbloquearObjetos(false);
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    //programacion del jlist
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        int index = jList1.locationToIndex(evt.getPoint());
+        JOptionPane.showMessageDialog(null, "click "+Integer.toString(index));
+    }//GEN-LAST:event_jList1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -471,9 +494,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelTrack;
     private javax.swing.JLabel jLabelVol;
+    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanelInfo;
     private javax.swing.JPanel jPanelList;
     private javax.swing.JPanel jPanelPlayer;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSlider jSliderVol;
     private javax.swing.JTextField jTextFieldAlb;
