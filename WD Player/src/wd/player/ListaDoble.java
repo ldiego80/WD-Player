@@ -25,7 +25,7 @@ public class ListaDoble{
 	
 	 public void add(String nombre,String artista, String album, String genero,int duracion,File ruta) 
 	{
-       	Nodo nodo = new Nodo(nombre,artista,album,genero,duracion,ruta);
+            Nodo nodo = new Nodo(nombre,artista,album,genero,duracion,ruta);
 
 		// caso de lista vacía
 		if (this.size == 0) 
@@ -51,17 +51,78 @@ public class ListaDoble{
 			return null;
 		}
 		else{
-			/*Nodo actual=new Nodo();
+			Nodo actual=new Nodo();
 			actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getNombre==artista){
+				if(actual.getNombre().equals(artista)){
 					return actual;
 				}
 				else{
 					actual=actual.getNext();
 				}
 				
-			}*/
+			}
+			return null;
+		}
+		
+	}
+        public Nodo buscarAlbum(String criterio){
+		if(this.first==null){
+			return null;
+		}
+		else{
+			Nodo actual=new Nodo();
+			actual=this.first;
+			for(int i=0; i<this.size;i++){
+				if(actual.getNombre().equals(criterio)){
+					return actual;
+				}
+				else{
+					actual=actual.getNext();
+				}
+				
+			}
+			return null;
+		}
+		
+	}
+        
+         public Nodo buscarGenero(String criterio){
+		if(this.first==null){
+			return null;
+		}
+		else{
+			Nodo actual=new Nodo();
+			actual=this.first;
+			for(int i=0; i<this.size;i++){
+				if(actual.getNombre().equals(criterio)){
+					return actual;
+				}
+				else{
+					actual=actual.getNext();
+				}
+				
+			}
+			return null;
+		}
+		
+	}
+          public Nodo buscarCancion(String criterio){
+		if(this.first==null){
+			return null;
+		}
+		else{
+			Nodo actual=new Nodo();
+			actual=this.first;
+			for(int i=0; i<this.size;i++){
+				if(actual.getNombre().equals(criterio)){
+					return actual;
+				}
+				else{
+					actual=actual.getNext();
+				}
+				
+			}
 			return null;
 		}
 		
