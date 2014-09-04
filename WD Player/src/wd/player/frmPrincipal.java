@@ -36,6 +36,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     AudioHeader audioHeader = null;
     boolean running= false;
     
+    
     String nom = "";
     String art = "";
     String alb = "";
@@ -152,6 +153,13 @@ public class frmPrincipal extends javax.swing.JFrame {
     
     public void agregarCancionLista(){
         modeloLista.addElement(jFileChooser1.getSelectedFile().getName());
+        Nodo cancion=new Nodo(nom, art, alb, gen, dur, file);
+        boolean estado=biblioteca.add(cancion);
+         System.out.println(estado);
+         Nodo prueba= biblioteca.getLast();
+         System.out.println(prueba.getNombre());
+                
+                
     }
     
     public void procesarJfileChooser1() {

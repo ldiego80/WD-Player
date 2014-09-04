@@ -18,7 +18,7 @@ public class ListaDoble{
 		size=0;
 	}
 	
-	 public void add(Nodo nodo) 
+	 public boolean add(Nodo nodo) 
         {            
             // caso de lista vacía
             if (this.size == 0) 
@@ -27,6 +27,7 @@ public class ListaDoble{
                 this.last = nodo;
                 this.first.setPrevious(this.last);
                 this.first.setNext(this.last);
+                
    
             }
             else 
@@ -34,11 +35,18 @@ public class ListaDoble{
               nodo.setNext(this.last.getNext() );
               this.last.setNext(nodo);
               this.last = nodo;
+              
             }
-
-            this.size++;
+            if(this.last==nodo){
+                size++;
+                return true;
+            }
+            else{ return false;}
+            
         }
-         
+         public Nodo getLast(){
+             return this.last;
+         }
          public boolean delete(String criterio){
              
             //Nodo actual=new Nodo();

@@ -23,7 +23,7 @@ public class Nodo{
 		private Nodo previous;
 		private Nodo next;
 		
-		Nodo (String nombre,String artista, String album, String genero,int duracion,File ruta){// Constructor Nodo
+		public Nodo (String nombre,String artista, String album, String genero,int duracion,File ruta){// Constructor Nodo
 			this.nombre=nombre;
 			this.artista=artista;
 			this.album=album;
@@ -35,7 +35,7 @@ public class Nodo{
 			next=null;
 			
 		}
-		Nodo(){
+		public Nodo(){
 			this.nombre=" ";
 			this.artista=" ";
 			this.album=" ";
