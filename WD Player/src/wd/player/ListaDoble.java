@@ -23,7 +23,7 @@ public class ListaDoble{
 		size=0;
 	}
 	
-	 public void add(String nombre,String artista, String album, String genero,int duracion,File ruta) 
+	 public void add(String nombre,String artista, String album, String genero,int duracion,String ruta) 
 	{
             Nodo nodo = new Nodo(nombre,artista,album,genero,duracion,ruta);
 

@@ -19,11 +19,11 @@ public class Nodo{
 		private String genero;
 		private int duracion;
 		//private loquesea imagen;
-		private File ruta;
+		private String ruta;
 		private Nodo previous;
 		private Nodo next;
 		
-		Nodo (String nombre,String artista, String album, String genero,int duracion,File ruta){// Constructor Nodo
+		Nodo (String nombre,String artista, String album, String genero,int duracion,String ruta){// Constructor Nodo
 			this.nombre=nombre;
 			this.artista=artista;
 			this.album=album;
@@ -63,7 +63,7 @@ public class Nodo{
 		public int getDuracion(){ // obtener el dato
 			return duracion;
 		}
-		public File getRuta(){ // obtener el dato
+		public String getRuta(){ // obtener el dato
 			return ruta;
 		}
 		public Nodo getNext() // Obtener siguiente
@@ -71,7 +71,7 @@ public class Nodo{
             return next;
 			
         }
-			public Nodo getPrevious()  // Obtener anterior
+	public Nodo getPrevious()  // Obtener anterior
 		{
             return previous;
 			

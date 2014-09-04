@@ -25,10 +25,19 @@ public class frmPrincipal extends javax.swing.JFrame {
     ImageIcon derecha = new ImageIcon(getClass().getResource("/Images/derecha.png"));
     File file; 
     String url = null;
-    
     AudioFile audioFile = null;
     Tag tag = null;
     AudioHeader audioHeader = null;
+    
+    String nom = "";
+    String art = "";
+    String alb = "";
+    String tra = "";
+    String gen = "";
+    String ano = "";
+    int dur = 0;
+    
+    public static ListaDoble lista = new ListaDoble();
     
     public void IniciarObjetos() {
        setBounds(150, 100, 1025, 550);
@@ -95,15 +104,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form frmPrincipal
      */
-    public frmPrincipal() {
-        initComponents();
-        IniciarObjetos();
-        
-        try {
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    
+    public void agregarCancionLista(){
+        lista.add(nom, art, alb, gen, dur, url);
     }
     
     public void procesarJfileChooser1() {
@@ -135,6 +138,17 @@ public class frmPrincipal extends javax.swing.JFrame {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("Images/wd_logo.png"));
         return retValue;
+    }
+    
+    public frmPrincipal() {
+        initComponents();
+        IniciarObjetos();
+        
+        try {
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -384,6 +398,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jButton2.setBounds(10, 40, 40, 40);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/consultar.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanelList.add(jButton3);
         jButton3.setBounds(190, 40, 40, 40);
 
@@ -391,11 +410,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanelList.add(jButton4);
         jButton4.setBounds(70, 40, 40, 40);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
@@ -451,6 +465,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         int index = jList1.locationToIndex(evt.getPoint());
         JOptionPane.showMessageDialog(null, "click "+Integer.toString(index));
     }//GEN-LAST:event_jList1MouseClicked
+
+    //programación del boton consultar
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.hide(); this.dispose();
+        frmBusqueda f1 = new frmBusqueda(); f1.show();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
