@@ -21,8 +21,11 @@ import org.jvnet.substance.SubstanceLookAndFeel;
 public class frmPrincipal extends javax.swing.JFrame {
 
     boolean abrir = false;
+    boolean play = true;
     ImageIcon izquierda = new ImageIcon(getClass().getResource("/Images/izquierda.png"));
     ImageIcon derecha = new ImageIcon(getClass().getResource("/Images/derecha.png"));
+    ImageIcon imgPlay = new ImageIcon(getClass().getResource("/Images/play.png"));
+    ImageIcon imgPause = new ImageIcon(getClass().getResource("/Images/pausa.png"));
     File file; 
     String url = null;
     AudioFile audioFile = null;
@@ -100,6 +103,20 @@ public class frmPrincipal extends javax.swing.JFrame {
             setBounds(150, 100, 1025, 550);
             jButtonAbrir.setIcon(derecha);
             abrir = false;
+        }
+    }
+    
+    public void procesarPlayPause() {
+        if (play == false)
+        {
+            jButtonPlayPause.setIcon(imgPlay);
+            play = true;
+        }
+        else
+        if (play == true)
+        {
+            jButtonPlayPause.setIcon(imgPause);
+            play = false;
         }
     }
     
@@ -436,9 +453,10 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButtonPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayPauseActionPerformed
-        
+        procesarPlayPause();
     }//GEN-LAST:event_jButtonPlayPauseActionPerformed
 
+    
     private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
         
     }//GEN-LAST:event_jButtonStopActionPerformed
