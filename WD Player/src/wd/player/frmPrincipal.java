@@ -8,8 +8,11 @@ package wd.player;
 
 import java.awt.*;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import org.jaudiotagger.audio.*;
 import org.jaudiotagger.tag.*;
 import org.jvnet.substance.SubstanceLookAndFeel;
@@ -31,6 +34,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     AudioFile audioFile = null;
     Tag tag = null;
     AudioHeader audioHeader = null;
+    boolean running= false;
     
     String nom = "";
     String art = "";
@@ -41,6 +45,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     int dur = 0;
     
     DefaultListModel modeloLista = new DefaultListModel();
+    PlayerD reproductor = new PlayerD();   
     
     public void IniciarObjetos() {
        setBounds(150, 100, 1025, 550);
@@ -136,6 +141,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                 audioFile = AudioFileIO.read(file);
                 tag = audioFile.getTag();
                 audioHeader = audioFile.getAudioHeader();
+                
+                reproductor.control.open(file);//Le decimos al control del player que abra el archivo 
                 
                 procesarInfo();
                 agregarCancionLista();
@@ -352,6 +359,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jPanelPlayer.add(jButtonPlayPause);
         jButtonPlayPause.setBounds(300, 359, 70, 60);
+
+        jSliderVol.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderVolStateChanged(evt);
+            }
+        });
         jPanelPlayer.add(jSliderVol);
         jSliderVol.setBounds(500, 380, 120, 30);
 
@@ -488,6 +501,15 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.hide(); this.dispose();
         frmBusqueda f1 = new frmBusqueda(); f1.show();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jSliderVolStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderVolStateChanged
+        try { 
+            reproductor.control.setGain((double)jSliderVol.getValue()/100); 
+        } catch (BasicPlayerException ex) { 
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex); 
+        } 
+        jLabel1.setText(jSliderVol.getValue()+"%"); 
+    }//GEN-LAST:event_jSliderVolStateChanged
 
     /**
      * @param args the command line arguments
