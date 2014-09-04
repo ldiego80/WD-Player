@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import org.jvnet.substance.SubstanceLookAndFeel;
+import static wd.player.GlobalVariables.biblioteca;
 
 /**
  *
@@ -22,12 +23,56 @@ public class frmBusqueda extends javax.swing.JFrame {
      */
     public frmBusqueda() {
         initComponents();
+        
     }
     
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("Images/wd_logo.png"));
         return retValue;
+    }
+    
+    public void limpiarTabla(){
+        remove(jTable1);
+        
+        jTable1 = new javax.swing.JTable();
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Artista", "Album", "Genero", "Duración"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
     }
 
     /**
@@ -40,7 +85,7 @@ public class frmBusqueda extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboBoxBusqueda = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -57,10 +102,10 @@ public class frmBusqueda extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(290, 10, 300, 60);
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Artista", "Álbum", "Género" }));
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(280, 100, 170, 40);
+        jComboBoxBusqueda.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jComboBoxBusqueda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Artista", "Álbum", "Género" }));
+        getContentPane().add(jComboBoxBusqueda);
+        jComboBoxBusqueda.setBounds(280, 100, 170, 40);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Búsqueda:");
@@ -68,6 +113,11 @@ public class frmBusqueda extends javax.swing.JFrame {
         jLabel2.setBounds(130, 100, 150, 40);
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
         getContentPane().add(jTextField1);
         jTextField1.setBounds(480, 100, 220, 40);
 
@@ -132,6 +182,56 @@ public class frmBusqueda extends javax.swing.JFrame {
         frmPrincipal f1 = new frmPrincipal(); f1.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        limpiarTabla();
+        if (!jTextField1.getText().equals("")){
+        if (jComboBoxBusqueda.getSelectedIndex()==0){
+            ListaDoble biblio = biblioteca.buscarCancion(jTextField1.getText());
+            for(int i=0;i<biblio.tamano(); i++){
+                Nodo nodo = biblio.buscarNodo(i);
+                jTable1.setValueAt(nodo.getNombre(), i, 0);
+                jTable1.setValueAt(nodo.getArtista(), i, 1);
+                jTable1.setValueAt(nodo.getAlbum(), i, 2);
+                jTable1.setValueAt(nodo.getGenero(), i, 3);
+                jTable1.setValueAt(Integer.toString(nodo.getDuracion()), i, 4);
+            }
+        }
+        if (jComboBoxBusqueda.getSelectedIndex()==1){
+            ListaDoble biblio = biblioteca.buscarArtista(jTextField1.getText());
+            for(int i=0;i<biblio.tamano(); i++){
+                Nodo nodo = biblio.buscarNodo(i);
+                jTable1.setValueAt(nodo.getNombre(), i, 0);
+                jTable1.setValueAt(nodo.getArtista(), i, 1);
+                jTable1.setValueAt(nodo.getAlbum(), i, 2);
+                jTable1.setValueAt(nodo.getGenero(), i, 3);
+                jTable1.setValueAt(Integer.toString(nodo.getDuracion()), i, 4);
+            }
+        }
+        if (jComboBoxBusqueda.getSelectedIndex()==2){
+            ListaDoble biblio = biblioteca.buscarAlbum(jTextField1.getText());
+            for(int i=0;i<biblio.tamano(); i++){
+                Nodo nodo = biblio.buscarNodo(i);
+                jTable1.setValueAt(nodo.getNombre(), i, 0);
+                jTable1.setValueAt(nodo.getArtista(), i, 1);
+                jTable1.setValueAt(nodo.getAlbum(), i, 2);
+                jTable1.setValueAt(nodo.getGenero(), i, 3);
+                jTable1.setValueAt(Integer.toString(nodo.getDuracion()), i, 4);
+            }
+        }
+        if (jComboBoxBusqueda.getSelectedIndex()==3){
+            ListaDoble biblio = biblioteca.buscarGenero(jTextField1.getText());
+            for(int i=0;i<biblio.tamano(); i++){
+                Nodo nodo = biblio.buscarNodo(i);
+                jTable1.setValueAt(nodo.getNombre(), i, 0);
+                jTable1.setValueAt(nodo.getArtista(), i, 1);
+                jTable1.setValueAt(nodo.getAlbum(), i, 2);
+                jTable1.setValueAt(nodo.getGenero(), i, 3);
+                jTable1.setValueAt(Integer.toString(nodo.getDuracion()), i, 4);
+            }
+        }
+        }
+    }//GEN-LAST:event_jTextField1KeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -150,7 +250,7 @@ public class frmBusqueda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxBusqueda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

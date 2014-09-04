@@ -16,6 +16,8 @@ import javazoom.jlgui.basicplayer.BasicPlayerException;
 import org.jaudiotagger.audio.*;
 import org.jaudiotagger.tag.*;
 import org.jvnet.substance.SubstanceLookAndFeel;
+import static wd.player.GlobalVariables.biblioteca;
+import static wd.player.GlobalVariables.index;
 
 /**
  *
@@ -35,7 +37,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     Tag tag = null;
     AudioHeader audioHeader = null;
     boolean running= false;
-    int index=-1;
+    
     
     
     String nom = "";
@@ -48,7 +50,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     
     DefaultListModel modeloLista = new DefaultListModel();
     PlayerD reproductor = new PlayerD(); 
-    ListaDoble biblioteca= new ListaDoble();
     
     public void IniciarObjetos() {
        setBounds(150, 100, 1025, 550);
@@ -57,7 +58,12 @@ public class frmPrincipal extends javax.swing.JFrame {
        jButtonAceptar.setVisible(false);
        bloquearDesbloquearObjetos(false);
        
-       jList1.setModel(modeloLista);
+       try{
+           jList1.setModel(biblioteca.cargarLista());
+       }
+       catch(Exception ex){
+           System.out.println(ex);
+       }
     }
     
     public void bloquearDesbloquearObjetos(boolean a){
@@ -160,6 +166,10 @@ public class frmPrincipal extends javax.swing.JFrame {
     
     public void agregarCancionLista(){
         //modeloLista.addElement(jFileChooser1.getSelectedFile().getName());
+        if(nom.equals("")){
+            nom = "Desconocido";
+            jTextFieldNom.setText(nom);
+        }
         Nodo cancion=new Nodo(nom, art, alb, gen, dur, file);
         biblioteca.add(cancion);
         jList1.setModel(biblioteca.cargarLista());
@@ -525,6 +535,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         } 
         jButtonPlayPause.setIcon(imgPlay);
         running = false; 
+        play = true;
     }//GEN-LAST:event_jButtonStopActionPerformed
     
     //programacion del boton modiifcar
@@ -545,9 +556,14 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     //programacion del jlist
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        if(jList1.getSelectedIndex()!= index){
-            running=false;
-        }
+        try { 
+            reproductor.control.stop(); 
+        } catch (BasicPlayerException ex) { 
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex); 
+        } 
+        jButtonPlayPause.setIcon(imgPlay);
+        play = true;
+        running = false; 
         index= jList1.getSelectedIndex();
         rellenar();
         try {
@@ -577,7 +593,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         if(biblioteca.delete(index)==true){
-               modeloLista.removeElementAt(index);
+               jList1.setModel(biblioteca.cargarLista());
                JOptionPane.showMessageDialog(null, "Cancion eliminada correctamente");
         }
          
@@ -586,7 +602,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
         Nodo temp= biblioteca.buscarNodo(index);
-        temp.setNombre(jTextFieldNom.getText());
+        if(jTextFieldNom.getText().equals("")){
+            temp.setNombre("Desconocido");
+        }
+        else
+            temp.setNombre(jTextFieldNom.getText());
         temp.setArtista(jTextFieldArt.getText());
         temp.setAlbum(jTextFieldAlb.getText());
         temp.setGenero(jTextFieldGen.getText());

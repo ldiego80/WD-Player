@@ -136,7 +136,7 @@ public class ListaDoble{
                         
 			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getArtista().equals(criterio)){
+				if(actual.getArtista().startsWith(criterio)){
 					Resultado.add(actual);
 				}
 				else{
@@ -158,7 +158,7 @@ public class ListaDoble{
                         ListaDoble Resultado= new ListaDoble();
 			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getAlbum().equals(criterio)){
+				if(actual.getAlbum().startsWith(criterio)){
 					Resultado.add(actual);
 				}
 				else{
@@ -180,7 +180,7 @@ public class ListaDoble{
                         ListaDoble Resultado= new ListaDoble();
 			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getGenero().equals(criterio)){
+				if(actual.getGenero().startsWith(criterio)){
 					Resultado.add(actual);
 				}
 				else{
@@ -201,7 +201,7 @@ public class ListaDoble{
                         ListaDoble Resultado= new ListaDoble();
 			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getNombre().equals(criterio)){
+				if(actual.getNombre().startsWith(criterio)){
 					Resultado.add(actual);
 				}
 				else{
