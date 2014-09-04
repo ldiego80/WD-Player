@@ -13,17 +13,28 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jaudiotagger.audio.*;
 import org.jaudiotagger.tag.*;
 import org.jvnet.substance.SubstanceLookAndFeel;
+import java.io.File; 
+import java.util.logging.Level; 
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 /**
  *
  * @author DIEGO
  */
 public class frmPrincipal extends javax.swing.JFrame {
+    PlayerD reproductor = new PlayerD();     
+
+    JFileChooser fileChooser = new JFileChooser(); 
+   
+    File file; 
+    boolean running= false;
 
     boolean abrir = false;
     ImageIcon izquierda = new ImageIcon(getClass().getResource("/Images/izquierda.png"));
     ImageIcon derecha = new ImageIcon(getClass().getResource("/Images/derecha.png"));
-    File file; 
     String url = null;
     AudioFile audioFile = null;
     Tag tag = null;
@@ -119,6 +130,10 @@ public class frmPrincipal extends javax.swing.JFrame {
                 audioFile = AudioFileIO.read(file);
                 tag = audioFile.getTag();
                 audioHeader = audioFile.getAudioHeader();
+                           
+                reproductor.control.open(file);//Le decimos al control del player que abra el archivo 
+            
+                
                 
                 procesarInfo();
                 agregarCancionLista();
@@ -230,31 +245,31 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabelNom.setText("Nombre:");
         jPanelInfo.add(jLabelNom);
-        jLabelNom.setBounds(10, 70, 80, 20);
+        jLabelNom.setBounds(10, 70, 80, 14);
 
         jLabelArt.setText("Artista:");
         jPanelInfo.add(jLabelArt);
-        jLabelArt.setBounds(10, 100, 80, 20);
+        jLabelArt.setBounds(10, 100, 80, 14);
 
         jLabelAlb.setText("Álbum:");
         jPanelInfo.add(jLabelAlb);
-        jLabelAlb.setBounds(10, 130, 80, 20);
+        jLabelAlb.setBounds(10, 130, 80, 14);
 
         jLabelTrack.setText("Track:");
         jPanelInfo.add(jLabelTrack);
-        jLabelTrack.setBounds(10, 160, 80, 20);
+        jLabelTrack.setBounds(10, 160, 80, 14);
 
         jLabelAno.setText("Año:");
         jPanelInfo.add(jLabelAno);
-        jLabelAno.setBounds(10, 220, 60, 20);
+        jLabelAno.setBounds(10, 220, 60, 14);
 
         jLabelDur.setText("Duración:");
         jPanelInfo.add(jLabelDur);
-        jLabelDur.setBounds(10, 250, 80, 20);
+        jLabelDur.setBounds(10, 250, 80, 14);
 
         jLabelGen.setText("Género:");
         jPanelInfo.add(jLabelGen);
-        jLabelGen.setBounds(10, 190, 80, 20);
+        jLabelGen.setBounds(10, 190, 80, 14);
 
         jTextFieldDur.setBackground(new java.awt.Color(144, 210, 147));
         jTextFieldDur.setText("-");
@@ -335,6 +350,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jPanelPlayer.add(jButtonPlayPause);
         jButtonPlayPause.setBounds(300, 359, 70, 60);
+
+        jSliderVol.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderVolStateChanged(evt);
+            }
+        });
         jPanelPlayer.add(jSliderVol);
         jSliderVol.setBounds(500, 380, 120, 30);
 
@@ -376,7 +397,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabelLista.setText("Lista de Reproducción");
         jPanelList.add(jLabelLista);
-        jLabelLista.setBounds(10, 10, 290, 20);
+        jLabelLista.setBounds(10, 10, 290, 14);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/editar.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -433,9 +454,11 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         procesarJfileChooser1();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButtonPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayPauseActionPerformed
+        
         
     }//GEN-LAST:event_jButtonPlayPauseActionPerformed
 
@@ -470,6 +493,16 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.hide(); this.dispose();
         frmBusqueda f1 = new frmBusqueda(); f1.show();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jSliderVolStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderVolStateChanged
+        // TODO add your handling code here:
+         try { 
+            reproductor.control.setGain((double)jSliderVol.getValue()/100); 
+        } catch (BasicPlayerException ex) { 
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex); 
+        } 
+        jLabel1.setText(jSliderVol.getValue()+"%"); 
+    }//GEN-LAST:event_jSliderVolStateChanged
 
     /**
      * @param args the command line arguments
