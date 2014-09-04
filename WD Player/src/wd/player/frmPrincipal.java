@@ -153,15 +153,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
     
     public void agregarCancionLista(){
-        modeloLista.addElement(jFileChooser1.getSelectedFile().getName());
+        //modeloLista.addElement(jFileChooser1.getSelectedFile().getName());
         Nodo cancion=new Nodo(nom, art, alb, gen, dur, file);
-        boolean estado=biblioteca.add(cancion);
-        Nodo prueba= biblioteca.getLast();
-        JOptionPane.showMessageDialog(null, "nombre: "+prueba.getNombre());
-         
-         
-                
-                
+        biblioteca.add(cancion);
+        modeloLista=biblioteca.cargarLista();
+        jList1.setModel(modeloLista);
     }
     
     public void procesarJfileChooser1() {
@@ -471,6 +467,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jButton3.setBounds(190, 40, 40, 40);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/menos.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jPanelList.add(jButton4);
         jButton4.setBounds(70, 40, 40, 40);
 
@@ -564,6 +565,21 @@ public class frmPrincipal extends javax.swing.JFrame {
         } 
         jLabel1.setText(jSliderVol.getValue()+"%"); 
     }//GEN-LAST:event_jSliderVolStateChanged
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(index>=0){
+            
+            if(biblioteca.delete(index)==true){
+                modeloLista= biblioteca.cargarLista();
+                jList1.setModel(modeloLista);
+                JOptionPane.showMessageDialog(null, "Cancion eliminada correctamente "+ Integer.toString(biblioteca.tamano()));
+            }
+            
+        }
+         modeloLista= biblioteca.cargarLista();
+                jList1.setModel(modeloLista);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

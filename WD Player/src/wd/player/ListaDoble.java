@@ -1,6 +1,8 @@
 
 package wd.player;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author Way
@@ -63,17 +65,36 @@ public class ListaDoble{
              }
              return null;
          }
-         public boolean delete(String criterio){
+         
+         public DefaultListModel cargarLista(){
+             DefaultListModel modelo= new DefaultListModel();
+             Nodo actual=this.first;
+             for(int i=0;i<this.size;i++){
+                 modelo.addElement(actual.getNombre());
+                 actual=actual.getNext();
+             }
+             return modelo;
+         }
+         public int tamano(){
+             int n=0;
+             Nodo actual=this.first;
+             for(int i=0;i<this.size;i++){
+                 n++;
+                 actual=actual.getNext();
+             }
+             return n;
+         }
+         public boolean delete(int n){
              
             //Nodo actual=new Nodo();
                  Nodo actual=this.first;
                         
-                 for(int i=0; i<this.size;i++){
+                 for(int i=0; i<=n;i++){
                             Nodo pre=actual.getPrevious();
                             Nodo nextt= actual.getNext();
-                            if(actual.getNombre().equals(criterio)){
-                                pre.setNext(actual.getNext());
-                                nextt.setPrevious(actual.getPrevious());
+                            if(i==n){
+                                pre.setNext(nextt);
+                                nextt.setPrevious(pre);
                                 actual.vaciar();
                                 this.size--;
                                  return true;
