@@ -106,7 +106,7 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     
     public void agregarCancionLista(){
-        lista.add(nom, art, alb, gen, dur, url);
+//        lista.add(nom, art, alb, gen, dur, url);
     }
     
     public void procesarJfileChooser1() {

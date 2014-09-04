@@ -54,7 +54,7 @@ public class Nodo{
 		public String getArtista(){ // obtener el dato
 			return artista;
 		}
-		public String getalbum(){ // obtener el dato
+		public String getAlbum(){ // obtener el dato
 			return album;
 		}
 		public String getGenero(){ // obtener el dato

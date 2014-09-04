@@ -1,6 +1,6 @@
 
 package wd.player;
-import java.io.File;
+
 /**
  *
  * @author Way
@@ -18,107 +18,154 @@ public class ListaDoble{
 		size=0;
 	}
 	
-	 public void add(String nombre,String artista, String album, String genero,int duracion,String ruta) 
-	{
-            Nodo nodo = new Nodo(nombre,artista,album,genero,duracion,ruta);
+	 public void add(Nodo nodo) 
+        {            
+            // caso de lista vacía
+            if (this.size == 0) 
+            { 
+                this.first = nodo;
+                this.last = nodo;
+                this.first.setPrevious(this.last);
+                this.first.setNext(this.last);
+   
+            }
+            else 
+            { nodo.setPrevious(this.last);
+              nodo.setNext(this.last.getNext() );
+              this.last.setNext(nodo);
+              this.last = nodo;
+            }
 
-		// caso de lista vacía
-		if (this.size == 0) 
-		{ 
-			this.first = nodo;
-			this.last = nodo;
-			this.first.setPrevious(this.last);
-			this.first.setNext(this.last);
-			
-		}
-		else 
-		{	nodo.setPrevious(this.last);
-			nodo.setNext(this.last.getNext() );
-			this.last.setNext(nodo);
-			this.last = nodo;
-		}
-
-		this.size++;
-    }
+            this.size++;
+        }
+         
+         public boolean delete(String criterio){
+             
+            //Nodo actual=new Nodo();
+                 Nodo actual=this.first;
+                        
+                 for(int i=0; i<this.size;i++){
+                            Nodo pre=actual.getPrevious();
+                            Nodo nextt= actual.getNext();
+                            if(actual.getNombre().equals(criterio)){
+                                pre.setNext(actual.getNext());
+                                nextt.setPrevious(actual.getPrevious());
+                                actual.vaciar();
+                                this.size--;
+                                 return true;
+                            }
+                            else{
+                                actual=actual.getNext();
+                            }
+    
+                   }
+                 return false;
+   
+        }
 	
-	public Nodo buscarArtista(String artista){
-		if(this.first==null){
+         public boolean modificar(Nodo copia, Nodo cambio){
+             Nodo actual=this.first;
+                        
+                 for(int i=0; i<this.size;i++){
+                           
+                            if(actual.getNombre().equals(copia.getNombre()) && actual.getArtista().equals(copia.getArtista())&&actual.getAlbum().equals(copia.getAlbum()) && actual.getGenero().equals(copia.getGenero())){
+                                actual=cambio;
+                                
+                                 return true;
+                            }
+                            else{
+                                actual=actual.getNext();
+                            }
+    
+                   }
+                 return false;
+   
+         }
+         
+	public ListaDoble buscarArtista(String criterio){
+	 ListaDoble Resultado= new ListaDoble();	
+            if(this.size==0){
 			return null;
 		}
 		else{
-			Nodo actual=new Nodo();
-			actual=this.first;
+			//Nodo actual=new Nodo();
+                        
+			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getNombre().equals(artista)){
-					return actual;
+				if(actual.getArtista().equals(criterio)){
+					Resultado.add(actual);
 				}
 				else{
 					actual=actual.getNext();
 				}
 				
 			}
-			return null;
+                        return Resultado;
+			
 		}
 		
 	}
-        public Nodo buscarAlbum(String criterio){
-		if(this.first==null){
+        public ListaDoble buscarAlbum(String criterio){
+		if(this.size==0){
 			return null;
 		}
 		else{
-			Nodo actual=new Nodo();
-			actual=this.first;
+			//Nodo actual=new Nodo();
+                        ListaDoble Resultado= new ListaDoble();
+			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getNombre().equals(criterio)){
-					return actual;
+				if(actual.getAlbum().equals(criterio)){
+					Resultado.add(actual);
 				}
 				else{
 					actual=actual.getNext();
 				}
 				
 			}
-			return null;
+			return Resultado;
 		}
 		
 	}
         
-         public Nodo buscarGenero(String criterio){
-		if(this.first==null){
+           public ListaDoble buscarGenero(String criterio){
+		if(this.size==0){
 			return null;
 		}
 		else{
-			Nodo actual=new Nodo();
-			actual=this.first;
+			//Nodo actual=new Nodo();
+                        ListaDoble Resultado= new ListaDoble();
+			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
-				if(actual.getNombre().equals(criterio)){
-					return actual;
+				if(actual.getGenero().equals(criterio)){
+					Resultado.add(actual);
 				}
 				else{
 					actual=actual.getNext();
 				}
 				
 			}
-			return null;
+			return Resultado;
 		}
 		
 	}
-          public Nodo buscarCancion(String criterio){
-		if(this.first==null){
+          public ListaDoble buscarCancion(String criterio){
+		if(this.size==0){
 			return null;
 		}
 		else{
-			Nodo actual=new Nodo();
-			actual=this.first;
+			//Nodo actual=new Nodo();
+                        ListaDoble Resultado= new ListaDoble();
+			Nodo actual=this.first;
 			for(int i=0; i<this.size;i++){
 				if(actual.getNombre().equals(criterio)){
-					return actual;
+					Resultado.add(actual);
 				}
 				else{
 					actual=actual.getNext();
 				}
 				
 			}
-			return null;
+			return Resultado;
 		}
 		
 	}
