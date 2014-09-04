@@ -92,7 +92,9 @@ public class Nodo{
 		public void setDuracion(int duracion){ // obtener el dato
 			this.duracion=duracion;
 		}
-		
+		public void setRuta(String ruta){ // obtener el dato
+			this.genero=ruta;
+                }
 		
 		public void setNext(Nodo n){ // Metodo asignar siguiente
 			this.next= n;
