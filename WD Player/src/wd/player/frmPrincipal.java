@@ -45,7 +45,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     int dur = 0;
     
     DefaultListModel modeloLista = new DefaultListModel();
-    PlayerD reproductor = new PlayerD();   
+    PlayerD reproductor = new PlayerD(); 
+    ListaDoble biblioteca= new ListaDoble();
     
     public void IniciarObjetos() {
        setBounds(150, 100, 1025, 550);
