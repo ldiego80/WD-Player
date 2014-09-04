@@ -97,7 +97,16 @@ public class frmPrincipal extends javax.swing.JFrame {
         System.out.println("Año:" + ano);
         System.out.println("Duracion:" + dur + "s");
     }
-    
+    public void rellenar(){
+        Nodo temp= biblioteca.buscarNodo(index);
+         jTextFieldNom.setText(temp.getNombre());
+        jTextFieldArt.setText(temp.getArtista());
+        jTextFieldAlb.setText(temp.getAlbum());
+        jTextFieldTrack.setText("");
+        jTextFieldGen.setText(temp.getGenero());
+        jTextFieldAno.setText("");
+        jTextFieldDur.setText(Integer.toString(temp.getDuracion()));
+    }
     public void procesarTamañoVentana() {
         if (abrir == false)
         {
@@ -158,6 +167,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         biblioteca.add(cancion);
         modeloLista=biblioteca.cargarLista();
         jList1.setModel(modeloLista);
+        index++;
     }
     
     public void procesarJfileChooser1() {
@@ -365,6 +375,11 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jButtonAceptar.setFont(new java.awt.Font("Tahoma", 3, 16)); // NOI18N
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
         jPanelInfo.add(jButtonAceptar);
         jButtonAceptar.setBounds(70, 300, 110, 29);
 
@@ -541,6 +556,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
          index= jList1.getSelectedIndex();
         Nodo temp= biblioteca.buscarNodo(index);
+        rellenar();
         try {
            
             reproductor.control.open(temp.getRuta());
@@ -571,15 +587,29 @@ public class frmPrincipal extends javax.swing.JFrame {
         if(index>=0){
             
             if(biblioteca.delete(index)==true){
-                modeloLista= biblioteca.cargarLista();
-                jList1.setModel(modeloLista);
+               modeloLista.removeElementAt(index);
                 JOptionPane.showMessageDialog(null, "Cancion eliminada correctamente "+ Integer.toString(biblioteca.tamano()));
             }
             
         }
-         modeloLista= biblioteca.cargarLista();
-                jList1.setModel(modeloLista);
+         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        // TODO add your handling code here:
+        Nodo temp= biblioteca.buscarNodo(index);
+        temp.setNombre(jTextFieldNom.getText());
+        temp.setArtista(jTextFieldArt.getText());
+        temp.setAlbum(jTextFieldAlb.getText());
+        temp.setGenero(jTextFieldGen.getText());
+        biblioteca.modificar(index, temp);
+         jButtonAceptar.setVisible(false);
+        jButtonCancelar.setVisible(false);
+        bloquearDesbloquearObjetos(false);
+        
+        jList1.setModel(biblioteca.cargarLista());
+        
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
      * @param args the command line arguments

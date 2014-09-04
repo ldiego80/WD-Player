@@ -108,16 +108,15 @@ public class ListaDoble{
    
         }
 	
-         public boolean modificar(Nodo copia, Nodo cambio){
+         public boolean modificar(int index, Nodo cambio){
              Nodo actual=this.first;
                         
-                 for(int i=0; i<this.size;i++){
-                           
-                            if(actual.getNombre().equals(copia.getNombre()) && actual.getArtista().equals(copia.getArtista())&&actual.getAlbum().equals(copia.getAlbum()) && actual.getGenero().equals(copia.getGenero())){
+                 for(int i=0; i<=index;i++){
+                           if(i==index){
                                 actual=cambio;
-                                
                                  return true;
-                            }
+                           }
+                         
                             else{
                                 actual=actual.getNext();
                             }
