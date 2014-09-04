@@ -114,12 +114,36 @@ public class frmPrincipal extends javax.swing.JFrame {
     public void procesarPlayPause() {
         if (play == false)
         {
+             try { 
+                    reproductor.control.pause(); 
+                } catch (BasicPlayerException ex) { 
+                    Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex); 
+                } 
             jButtonPlayPause.setIcon(imgPlay);
             play = true;
         }
         else
         if (play == true)
         {
+             if (!running&&file!=null) { 
+                    try { 
+                       
+                        reproductor.control.play(); 
+                        
+                        running = true; 
+                        
+                    } catch (BasicPlayerException ex) { 
+                        Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex); 
+                    } 
+                } 
+             if (running) { 
+            try { 
+                reproductor.control.resume(); 
+                jButton1.setText("Pausa"); 
+            } catch (BasicPlayerException ex) { 
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex); 
+            } 
+                        } 
             jButtonPlayPause.setIcon(imgPause);
             play = false;
         }
@@ -471,8 +495,16 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     
     private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
-        
+        try { 
+            reproductor.control.stop(); 
+        } catch (BasicPlayerException ex) { 
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex); 
+        } 
+        jButtonPlayPause.setIcon(imgPlay);
+        running = false; 
     }//GEN-LAST:event_jButtonStopActionPerformed
+    
+    
 
     //programacion del boton modiifcar
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
