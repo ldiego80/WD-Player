@@ -37,18 +37,20 @@ public class frmPrincipal extends javax.swing.JFrame {
     String ano = "";
     int dur = 0;
     
-    public static ListaDoble lista = new ListaDoble();
+    DefaultListModel modeloLista = new DefaultListModel();
     
     public void IniciarObjetos() {
        setBounds(150, 100, 1025, 550);
        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de audio", "mp3");
        jFileChooser1.setFileFilter(filter);
        jButtonAceptar.setVisible(false);
-        bloquearDesbloquearObjetos(false);
+       bloquearDesbloquearObjetos(false);
+       
+       jList1.setModel(modeloLista);
     }
     
     public void bloquearDesbloquearObjetos(boolean a){
-        jButtonCancelar.setVisible(a);
+       jButtonCancelar.setVisible(a);
        jTextFieldAlb.setEditable(a);
        jTextFieldAno.setEditable(a);
        jTextFieldArt.setEditable(a);
@@ -101,12 +103,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }
     
-    /**
-     * Creates new form frmPrincipal
-     */
-    
     public void agregarCancionLista(){
-//        lista.add(nom, art, alb, gen, dur, url);
+        modeloLista.addElement(jFileChooser1.getSelectedFile().getName());
     }
     
     public void procesarJfileChooser1() {
@@ -123,6 +121,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 audioHeader = audioFile.getAudioHeader();
                 
                 procesarInfo();
+                agregarCancionLista();
                 
                 if (abrir == false)
                     procesarTamañoVentana();
@@ -231,31 +230,31 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabelNom.setText("Nombre:");
         jPanelInfo.add(jLabelNom);
-        jLabelNom.setBounds(10, 70, 80, 14);
+        jLabelNom.setBounds(10, 70, 80, 20);
 
         jLabelArt.setText("Artista:");
         jPanelInfo.add(jLabelArt);
-        jLabelArt.setBounds(10, 100, 80, 14);
+        jLabelArt.setBounds(10, 100, 80, 20);
 
         jLabelAlb.setText("Álbum:");
         jPanelInfo.add(jLabelAlb);
-        jLabelAlb.setBounds(10, 130, 80, 14);
+        jLabelAlb.setBounds(10, 130, 80, 20);
 
         jLabelTrack.setText("Track:");
         jPanelInfo.add(jLabelTrack);
-        jLabelTrack.setBounds(10, 160, 80, 14);
+        jLabelTrack.setBounds(10, 160, 80, 20);
 
         jLabelAno.setText("Año:");
         jPanelInfo.add(jLabelAno);
-        jLabelAno.setBounds(10, 220, 60, 14);
+        jLabelAno.setBounds(10, 220, 60, 20);
 
         jLabelDur.setText("Duración:");
         jPanelInfo.add(jLabelDur);
-        jLabelDur.setBounds(10, 250, 80, 14);
+        jLabelDur.setBounds(10, 250, 80, 20);
 
         jLabelGen.setText("Género:");
         jPanelInfo.add(jLabelGen);
-        jLabelGen.setBounds(10, 190, 80, 14);
+        jLabelGen.setBounds(10, 190, 80, 20);
 
         jTextFieldDur.setBackground(new java.awt.Color(144, 210, 147));
         jTextFieldDur.setText("-");
@@ -377,7 +376,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabelLista.setText("Lista de Reproducción");
         jPanelList.add(jLabelLista);
-        jLabelLista.setBounds(10, 10, 290, 14);
+        jLabelLista.setBounds(10, 10, 290, 20);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/editar.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -462,8 +461,8 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     //programacion del jlist
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        int index = jList1.locationToIndex(evt.getPoint());
-        JOptionPane.showMessageDialog(null, "click "+Integer.toString(index));
+        int index= jList1.getSelectedIndex();
+        //JOptionPane.showMessageDialog(null, "click "+Integer.toString(index));
     }//GEN-LAST:event_jList1MouseClicked
 
     //programación del boton consultar
