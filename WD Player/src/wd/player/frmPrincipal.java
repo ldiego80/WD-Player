@@ -63,12 +63,9 @@ public class frmPrincipal extends javax.swing.JFrame {
     public void bloquearDesbloquearObjetos(boolean a){
        jButtonCancelar.setVisible(a);
        jTextFieldAlb.setEditable(a);
-       jTextFieldAno.setEditable(a);
        jTextFieldArt.setEditable(a);
-       jTextFieldDur.setEditable(a);
        jTextFieldGen.setEditable(a);
        jTextFieldNom.setEditable(a);
-       jTextFieldTrack.setEditable(a);
     }
     
     public void procesarInfo() throws TagException, IOException {
@@ -99,7 +96,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
     public void rellenar(){
         Nodo temp= biblioteca.buscarNodo(index);
-         jTextFieldNom.setText(temp.getNombre());
+        jTextFieldNom.setText(temp.getNombre());
         jTextFieldArt.setText(temp.getArtista());
         jTextFieldAlb.setText(temp.getAlbum());
         jTextFieldTrack.setText("");
@@ -165,8 +162,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         //modeloLista.addElement(jFileChooser1.getSelectedFile().getName());
         Nodo cancion=new Nodo(nom, art, alb, gen, dur, file);
         biblioteca.add(cancion);
-        modeloLista=biblioteca.cargarLista();
-        jList1.setModel(modeloLista);
+        jList1.setModel(biblioteca.cargarLista());
         index++;
     }
     
@@ -531,8 +527,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         running = false; 
     }//GEN-LAST:event_jButtonStopActionPerformed
     
-    
-
     //programacion del boton modiifcar
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (abrir == false)
@@ -554,17 +548,15 @@ public class frmPrincipal extends javax.swing.JFrame {
         if(jList1.getSelectedIndex()!= index){
             running=false;
         }
-         index= jList1.getSelectedIndex();
-        Nodo temp= biblioteca.buscarNodo(index);
+        index= jList1.getSelectedIndex();
         rellenar();
         try {
-           
-            reproductor.control.open(temp.getRuta());
+           Nodo temp= biblioteca.buscarNodo(index);
+           reproductor.control.open(temp.getRuta());
         }
         catch(Exception es) {
                 JOptionPane.showMessageDialog(null, "Error al abrir el archivo"+ es);
             }
-        //JOptionPane.showMessageDialog(null, "click "+Integer.toString(index));
     }//GEN-LAST:event_jList1MouseClicked
 
     //programación del boton consultar
@@ -584,13 +576,9 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        if(index>=0){
-            
-            if(biblioteca.delete(index)==true){
+        if(biblioteca.delete(index)==true){
                modeloLista.removeElementAt(index);
-                JOptionPane.showMessageDialog(null, "Cancion eliminada correctamente "+ Integer.toString(biblioteca.tamano()));
-            }
-            
+               JOptionPane.showMessageDialog(null, "Cancion eliminada correctamente");
         }
          
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -603,7 +591,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         temp.setAlbum(jTextFieldAlb.getText());
         temp.setGenero(jTextFieldGen.getText());
         biblioteca.modificar(index, temp);
-         jButtonAceptar.setVisible(false);
+        jButtonAceptar.setVisible(false);
         jButtonCancelar.setVisible(false);
         bloquearDesbloquearObjetos(false);
         
