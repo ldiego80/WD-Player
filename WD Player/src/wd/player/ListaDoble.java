@@ -47,6 +47,22 @@ public class ListaDoble{
          public Nodo getLast(){
              return this.last;
          }
+         public Nodo buscarNodo(int n){
+             Nodo resul=new Nodo();
+             if(this.size>0){
+                 resul= this.first;
+                 for(int i=0;i<=n; i++){
+                     if(i==n){
+                         return resul;
+                     }
+                     else{
+                         resul=resul.getNext();
+                     }
+                 }
+                 
+             }
+             return null;
+         }
          public boolean delete(String criterio){
              
             //Nodo actual=new Nodo();
